@@ -12,6 +12,7 @@ import (
 	sql3 "github.com/Azure/azure-sdk-for-go/services/preview/sql/mgmt/v3.0/sql"
 	azuresqlshared "github.com/Azure/azure-service-operator/pkg/resourcemanager/azuresql/azuresqlshared"
 
+	"github.com/Azure/go-autorest/autorest"
 	"github.com/Azure/go-autorest/autorest/to"
 )
 
@@ -39,6 +40,19 @@ func (_ *AzureSqlDbManager) GetServer(ctx context.Context, resourceGroupName str
 	)
 }
 
+func (_ *AzureSqlDbManager) GetServerWithCreds(ctx context.Context, resourceGroupName string, serverName string, creds map[string]string) (result sql.Server, err error) {
+	serversClient, err := azuresqlshared.GetGoServersClientWithCreds(creds)
+	if err != nil {
+		return sql.Server{}, err
+	}
+
+	return serversClient.Get(
+		ctx,
+		resourceGroupName,
+		serverName,
+	)
+}
+
 // GetDB retrieves a database
 func (_ *AzureSqlDbManager) GetDB(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (sql.Database, error) {
 	dbClient, err := azuresqlshared.GetGoDbClient()
@@ -51,6 +65,22 @@ func (_ *AzureSqlDbManager) GetDB(ctx context.Context, resourceGroupName string,
 		resourceGroupName,
 		serverName,
 		databaseName,
+	)
+}
+
+// GetDBWithCreds retrieves a database
+func (_ *AzureSqlDbManager) GetDBWithCreds(ctx context.Context, resourceGroupName string, serverName string, databaseName string, creds map[string]string) (sql.Database, error) {
+	dbClient, err := azuresqlshared.GetGoDbClientWithCreds(creds)
+	if err != nil {
+		return sql.Database{}, err
+	}
+
+	return dbClient.Get(
+		ctx,
+		resourceGroupName,
+		serverName,
+		databaseName,
+		"serviceTierAdvisors, transparentDataEncryption",
 	)
 }
 
@@ -92,6 +122,41 @@ func (sdk *AzureSqlDbManager) DeleteDB(
 	return &result, err
 }
 
+// DeleteDB deletes a DB
+func (sdk *AzureSqlDbManager) DeleteDBWithCreds(ctx context.Context, resourceGroupName string, serverName string, databaseName string, creds map[string]string) (result autorest.Response, err error) {
+	result = autorest.Response{
+		Response: &http.Response{
+			StatusCode: 200,
+		},
+	}
+
+	// check to see if the server exists, if it doesn't then short-circuit
+	server, err := sdk.GetServerWithCreds(ctx, resourceGroupName, serverName, creds)
+	if err != nil || *server.State != "Ready" {
+		return result, nil
+	}
+
+	// check to see if the db exists, if it doesn't then short-circuit
+	_, err = sdk.GetDBWithCreds(ctx, resourceGroupName, serverName, databaseName, creds)
+	if err != nil {
+		return result, nil
+	}
+
+	dbClient, err := azuresqlshared.GetGoDbClientWithCreds(creds)
+	if err != nil {
+		return result, err
+	}
+
+	result, err = dbClient.Delete(
+		ctx,
+		resourceGroupName,
+		serverName,
+		databaseName,
+	)
+
+	return result, err
+}
+
 // CreateOrUpdateDB creates or updates a DB in Azure
 func (_ *AzureSqlDbManager) CreateOrUpdateDB(
 	ctx context.Context,
@@ -130,10 +195,36 @@ func (_ *AzureSqlDbManager) CreateOrUpdateDB(
 	return future.PollingURL(), &result, err
 }
 
-// AddLongTermRetention enables / disables long term retention
-func (_ *AzureSqlDbManager) AddLongTermRetention(ctx context.Context, resourceGroupName string, serverName string, databaseName string, weeklyRetention string, monthlyRetention string, yearlyRetention string, weekOfYear int32) (*http.Response, error) {
+// CreateOrUpdateDBWithCreds creates or updates a DB in Azure
+func (*AzureSqlDbManager) CreateOrUpdateDBWithCreds(ctx context.Context, resourceGroupName string, location string, serverName string, tags map[string]*string, properties azuresqlshared.SQLDatabaseProperties, creds map[string]string) (*http.Response, error) {
+	dbClient, err := azuresqlshared.GetGoDbClientWithCreds(creds)
+	if err != nil {
+		return &http.Response{
+			StatusCode: 0,
+		}, err
+	}
 
-	longTermClient, err := azuresqlshared.GetBackupLongTermRetentionPoliciesClient()
+	dbProp := azuresqlshared.SQLDatabasePropertiesToDatabase(properties)
+
+	future, err := dbClient.CreateOrUpdate(
+		ctx,
+		resourceGroupName,
+		serverName,
+		properties.DatabaseName,
+		sql.Database{
+			Location:           to.StringPtr(location),
+			DatabaseProperties: &dbProp,
+			Tags:               tags,
+		},
+	)
+
+	return future.Response(), err
+}
+
+// AddLongTermRetention enables / disables long term retention
+func (_ *AzureSqlDbManager) AddLongTermRetention(ctx context.Context, resourceGroupName string, serverName string, databaseName string, weeklyRetention string, monthlyRetention string, yearlyRetention string, weekOfYear int32, creds map[string]string) (*http.Response, error) {
+
+	longTermClient, err := azuresqlshared.GetBackupLongTermRetentionPoliciesClientWithCreds(creds)
 	// TODO: Probably shouldn't return a response at all in the err case here (all through this function)
 	if err != nil {
 		return &http.Response{

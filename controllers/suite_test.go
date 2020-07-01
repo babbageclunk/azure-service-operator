@@ -163,8 +163,9 @@ func setup() error {
 				"KeyVault",
 				ctrl.Log.WithName("controllers").WithName("KeyVault"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("KeyVault-controller"),
-			Scheme:   scheme.Scheme,
+			Recorder:     k8sManager.GetEventRecorderFor("KeyVault-controller"),
+			Scheme:       scheme.Scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -181,8 +182,9 @@ func setup() error {
 				"KeyVaultKey",
 				ctrl.Log.WithName("controllers").WithName("KeyVaultKey"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("KeyVaultKey-controller"),
-			Scheme:   scheme.Scheme,
+			Recorder:     k8sManager.GetEventRecorderFor("KeyVaultKey-controller"),
+			Scheme:       scheme.Scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -200,8 +202,9 @@ func setup() error {
 				"AppInsights",
 				ctrl.Log.WithName("controllers").WithName("AppInsights"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("AppInsights-controller"),
-			Scheme:   scheme.Scheme,
+			Recorder:     k8sManager.GetEventRecorderFor("AppInsights-controller"),
+			Scheme:       scheme.Scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -235,8 +238,9 @@ func setup() error {
 				"ApiMgmt",
 				ctrl.Log.WithName("controllers").WithName("ApiMgmt"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("ApiMgmt-controller"),
-			Scheme:   scheme.Scheme,
+			Recorder:     k8sManager.GetEventRecorderFor("ApiMgmt-controller"),
+			Scheme:       scheme.Scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -251,8 +255,9 @@ func setup() error {
 				"CosmosDB",
 				ctrl.Log.WithName("controllers").WithName("CosmosDB"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("CosmosDB-controller"),
-			Scheme:   scheme.Scheme,
+			Recorder:     k8sManager.GetEventRecorderFor("CosmosDB-controller"),
+			Scheme:       scheme.Scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -267,8 +272,9 @@ func setup() error {
 				"EventHub",
 				ctrl.Log.WithName("controllers").WithName("EventHub"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("Eventhub-controller"),
-			Scheme:   scheme.Scheme,
+			Recorder:     k8sManager.GetEventRecorderFor("Eventhub-controller"),
+			Scheme:       scheme.Scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -283,8 +289,9 @@ func setup() error {
 				"ResourceGroup",
 				ctrl.Log.WithName("controllers").WithName("ResourceGroup"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("ResourceGroup-controller"),
-			Scheme:   scheme.Scheme,
+			Recorder:     k8sManager.GetEventRecorderFor("ResourceGroup-controller"),
+			Scheme:       scheme.Scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -302,8 +309,9 @@ func setup() error {
 				"RedisCache",
 				ctrl.Log.WithName("controllers").WithName("RedisCache"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("RedisCache-controller"),
-			Scheme:   scheme.Scheme,
+			Recorder:     k8sManager.GetEventRecorderFor("RedisCache-controller"),
+			Scheme:       scheme.Scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -321,8 +329,9 @@ func setup() error {
 				"RedisCacheAction",
 				ctrl.Log.WithName("controllers").WithName("RedisCacheAction"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("RedisCacheAction-controller"),
-			Scheme:   k8sManager.GetScheme(),
+			Recorder:     k8sManager.GetEventRecorderFor("RedisCacheAction-controller"),
+			Scheme:       k8sManager.GetScheme(),
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -337,8 +346,9 @@ func setup() error {
 				"RedisCacheFirewallRule",
 				ctrl.Log.WithName("controllers").WithName("RedisCacheFirewallRule"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("RedisCacheFirewallRule-controller"),
-			Scheme:   k8sManager.GetScheme(),
+			Recorder:     k8sManager.GetEventRecorderFor("RedisCacheFirewallRule-controller"),
+			Scheme:       k8sManager.GetScheme(),
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -353,8 +363,9 @@ func setup() error {
 				"EventhubNamespace",
 				ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("EventhubNamespace-controller"),
-			Scheme:   scheme.Scheme,
+			Recorder:     k8sManager.GetEventRecorderFor("EventhubNamespace-controller"),
+			Scheme:       scheme.Scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -369,8 +380,9 @@ func setup() error {
 				"ConsumerGroup",
 				ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("ConsumerGroup-controller"),
-			Scheme:   scheme.Scheme,
+			Recorder:     k8sManager.GetEventRecorderFor("ConsumerGroup-controller"),
+			Scheme:       scheme.Scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -388,8 +400,9 @@ func setup() error {
 				"AzureSqlServer",
 				ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("AzureSqlServer-controller"),
-			Scheme:   scheme.Scheme,
+			Recorder:     k8sManager.GetEventRecorderFor("AzureSqlServer-controller"),
+			Scheme:       scheme.Scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -404,8 +417,9 @@ func setup() error {
 				"AzureSqlDb",
 				ctrl.Log.WithName("controllers").WithName("AzureSqlDb"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("AzureSqlDb-controller"),
-			Scheme:   scheme.Scheme,
+			Recorder:     k8sManager.GetEventRecorderFor("AzureSqlDb-controller"),
+			Scheme:       scheme.Scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -420,8 +434,9 @@ func setup() error {
 				"AzureSQLFirewallRuleOperator",
 				ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("AzureSqlFirewallRule-controller"),
-			Scheme:   scheme.Scheme,
+			Recorder:     k8sManager.GetEventRecorderFor("AzureSqlFirewallRule-controller"),
+			Scheme:       scheme.Scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -436,8 +451,9 @@ func setup() error {
 				"AzureSQLVNetRuleOperator",
 				ctrl.Log.WithName("controllers").WithName("AzureSQLVNetRuleOperator"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("AzureSqlVNetRule-controller"),
-			Scheme:   scheme.Scheme,
+			Recorder:     k8sManager.GetEventRecorderFor("AzureSqlVNetRule-controller"),
+			Scheme:       scheme.Scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -455,8 +471,9 @@ func setup() error {
 				"AzureSqlFailoverGroup",
 				ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
-			Scheme:   scheme.Scheme,
+			Recorder:     k8sManager.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
+			Scheme:       scheme.Scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -474,8 +491,9 @@ func setup() error {
 				"AzureSqlUser",
 				ctrl.Log.WithName("controllers").WithName("AzureSqlUser"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("AzureSqlUser-controller"),
-			Scheme:   scheme.Scheme,
+			Recorder:     k8sManager.GetEventRecorderFor("AzureSqlUser-controller"),
+			Scheme:       scheme.Scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -493,8 +511,9 @@ func setup() error {
 				"AzureSqlManagedUser",
 				ctrl.Log.WithName("controllers").WithName("AzureSqlManagedUser"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("AzureSqlManagedUser-controller"),
-			Scheme:   scheme.Scheme,
+			Recorder:     k8sManager.GetEventRecorderFor("AzureSqlManagedUser-controller"),
+			Scheme:       scheme.Scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -509,8 +528,9 @@ func setup() error {
 				"VirtualNetwork",
 				ctrl.Log.WithName("controllers").WithName("VirtualNetwork"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("VirtualNetwork-controller"),
-			Scheme:   scheme.Scheme,
+			Recorder:     k8sManager.GetEventRecorderFor("VirtualNetwork-controller"),
+			Scheme:       scheme.Scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -528,8 +548,9 @@ func setup() error {
 				"PublicIPAddress",
 				ctrl.Log.WithName("controllers").WithName("PublicIPAddress"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("PublicIPAddress-controller"),
-			Scheme:   k8sManager.GetScheme(),
+			Recorder:     k8sManager.GetEventRecorderFor("PublicIPAddress-controller"),
+			Scheme:       k8sManager.GetScheme(),
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -547,8 +568,9 @@ func setup() error {
 				"NetworkInterface",
 				ctrl.Log.WithName("controllers").WithName("NetworkInterface"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("NetworkInterface-controller"),
-			Scheme:   k8sManager.GetScheme(),
+			Recorder:     k8sManager.GetEventRecorderFor("NetworkInterface-controller"),
+			Scheme:       k8sManager.GetScheme(),
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -566,8 +588,9 @@ func setup() error {
 				"VirtualMachine",
 				ctrl.Log.WithName("controllers").WithName("VirtualMachine"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("VirtualMachine-controller"),
-			Scheme:   scheme.Scheme,
+			Recorder:     k8sManager.GetEventRecorderFor("VirtualMachine-controller"),
+			Scheme:       scheme.Scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -585,8 +608,9 @@ func setup() error {
 				"VirtualMachineExtension",
 				ctrl.Log.WithName("controllers").WithName("VirtualMachineExtension"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("VirtualMachineExtension-controller"),
-			Scheme:   scheme.Scheme,
+			Recorder:     k8sManager.GetEventRecorderFor("VirtualMachineExtension-controller"),
+			Scheme:       scheme.Scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -604,8 +628,9 @@ func setup() error {
 				"LoadBalancer",
 				ctrl.Log.WithName("controllers").WithName("LoadBalancer"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("LoadBalancer-controller"),
-			Scheme:   scheme.Scheme,
+			Recorder:     k8sManager.GetEventRecorderFor("LoadBalancer-controller"),
+			Scheme:       scheme.Scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -623,8 +648,9 @@ func setup() error {
 				"VMScaleSet",
 				ctrl.Log.WithName("controllers").WithName("VMScaleSet"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("VMScaleSet-controller"),
-			Scheme:   scheme.Scheme,
+			Recorder:     k8sManager.GetEventRecorderFor("VMScaleSet-controller"),
+			Scheme:       scheme.Scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -639,8 +665,9 @@ func setup() error {
 				"AzureSqlAction",
 				ctrl.Log.WithName("controllers").WithName("AzureSqlAction"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("AzureSqlAction-controller"),
-			Scheme:   scheme.Scheme,
+			Recorder:     k8sManager.GetEventRecorderFor("AzureSqlAction-controller"),
+			Scheme:       scheme.Scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -655,8 +682,9 @@ func setup() error {
 				"BlobContainer",
 				ctrl.Log.WithName("controllers").WithName("BlobContainer"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("BlobContainer-controller"),
-			Scheme:   k8sManager.GetScheme(),
+			Recorder:     k8sManager.GetEventRecorderFor("BlobContainer-controller"),
+			Scheme:       k8sManager.GetScheme(),
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -674,8 +702,9 @@ func setup() error {
 				"MySQLServer",
 				ctrl.Log.WithName("controllers").WithName("MySQLServer"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("MySQLServer-controller"),
-			Scheme:   k8sManager.GetScheme(),
+			Recorder:     k8sManager.GetEventRecorderFor("MySQLServer-controller"),
+			Scheme:       k8sManager.GetScheme(),
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -690,8 +719,9 @@ func setup() error {
 				"MySQLDatabase",
 				ctrl.Log.WithName("controllers").WithName("MySQLDatabase"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("MySQLDatabase-controller"),
-			Scheme:   k8sManager.GetScheme(),
+			Recorder:     k8sManager.GetEventRecorderFor("MySQLDatabase-controller"),
+			Scheme:       k8sManager.GetScheme(),
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -706,8 +736,9 @@ func setup() error {
 				"MySQLFirewallRule",
 				ctrl.Log.WithName("controllers").WithName("MySQLFirewallRule"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("MySQLFirewallRule-controller"),
-			Scheme:   k8sManager.GetScheme(),
+			Recorder:     k8sManager.GetEventRecorderFor("MySQLFirewallRule-controller"),
+			Scheme:       k8sManager.GetScheme(),
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -722,8 +753,9 @@ func setup() error {
 				"MySQLVNetRule",
 				ctrl.Log.WithName("controllers").WithName("MySQLVNetRule"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("MySQLVNetRule-controller"),
-			Scheme:   k8sManager.GetScheme(),
+			Recorder:     k8sManager.GetEventRecorderFor("MySQLVNetRule-controller"),
+			Scheme:       k8sManager.GetScheme(),
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -738,8 +770,9 @@ func setup() error {
 				"MySQLUser",
 				ctrl.Log.WithName("controllers").WithName("MySQLUser"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("MySQLUser-controller"),
-			Scheme:   k8sManager.GetScheme(),
+			Recorder:     k8sManager.GetEventRecorderFor("MySQLUser-controller"),
+			Scheme:       k8sManager.GetScheme(),
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -754,8 +787,9 @@ func setup() error {
 				"PostgreSQLServer",
 				ctrl.Log.WithName("controllers").WithName("PostgreSQLServer"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("PostgreSQLServer-controller"),
-			Scheme:   k8sManager.GetScheme(),
+			Recorder:     k8sManager.GetEventRecorderFor("PostgreSQLServer-controller"),
+			Scheme:       k8sManager.GetScheme(),
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -770,8 +804,9 @@ func setup() error {
 				"PostgreSQLDatabase",
 				ctrl.Log.WithName("controllers").WithName("PostgreSQLDatabase"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("PostgreSQLDatabase-controller"),
-			Scheme:   k8sManager.GetScheme(),
+			Recorder:     k8sManager.GetEventRecorderFor("PostgreSQLDatabase-controller"),
+			Scheme:       k8sManager.GetScheme(),
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -786,8 +821,9 @@ func setup() error {
 				"PostgreSQLFirewallRule",
 				ctrl.Log.WithName("controllers").WithName("PostgreSQLFirewallRule"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("PostgreSQLFirewallRule-controller"),
-			Scheme:   k8sManager.GetScheme(),
+			Recorder:     k8sManager.GetEventRecorderFor("PostgreSQLFirewallRule-controller"),
+			Scheme:       k8sManager.GetScheme(),
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -802,8 +838,9 @@ func setup() error {
 				"PostgreSQLUser",
 				ctrl.Log.WithName("controllers").WithName("PostgreSQLUser"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("PostgreSQLUser-controller"),
-			Scheme:   k8sManager.GetScheme(),
+			Recorder:     k8sManager.GetEventRecorderFor("PostgreSQLUser-controller"),
+			Scheme:       k8sManager.GetScheme(),
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {
@@ -818,8 +855,9 @@ func setup() error {
 				"StorageAccount",
 				ctrl.Log.WithName("controllers").WithName("StorageAccount"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("StorageAccount-controller"),
-			Scheme:   scheme.Scheme,
+			Recorder:     k8sManager.GetEventRecorderFor("StorageAccount-controller"),
+			Scheme:       scheme.Scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {

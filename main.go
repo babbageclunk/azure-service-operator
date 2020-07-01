@@ -201,8 +201,9 @@ func main() {
 				"StorageAccount",
 				ctrl.Log.WithName("controllers").WithName("StorageAccount"),
 			),
-			Recorder: mgr.GetEventRecorderFor("StorageAccount-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("StorageAccount-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {
@@ -217,8 +218,9 @@ func main() {
 				"CosmosDB",
 				ctrl.Log.WithName("controllers").WithName("CosmosDB"),
 			),
-			Recorder: mgr.GetEventRecorderFor("CosmosDB-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("CosmosDB-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {
@@ -234,8 +236,9 @@ func main() {
 				"RedisCache",
 				ctrl.Log.WithName("controllers").WithName("RedisCache"),
 			),
-			Recorder: mgr.GetEventRecorderFor("RedisCache-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("RedisCache-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {
@@ -251,8 +254,9 @@ func main() {
 				"RedisCacheAction",
 				ctrl.Log.WithName("controllers").WithName("RedisCacheAction"),
 			),
-			Recorder: mgr.GetEventRecorderFor("RedisCacheAction-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("RedisCacheAction-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "RedisCacheAction")
@@ -267,8 +271,9 @@ func main() {
 				"RedisCacheFirewallRule",
 				ctrl.Log.WithName("controllers").WithName("RedisCacheFirewallRule"),
 			),
-			Recorder: mgr.GetEventRecorderFor("RedisCacheFirewallRule-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("RedisCacheFirewallRule-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "RedisCacheFirewallRule")
@@ -283,8 +288,9 @@ func main() {
 				"Eventhub",
 				ctrl.Log.WithName("controllers").WithName("Eventhub"),
 			),
-			Recorder: mgr.GetEventRecorderFor("Eventhub-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("Eventhub-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {
@@ -318,8 +324,9 @@ func main() {
 				"EventhubNamespace",
 				ctrl.Log.WithName("controllers").WithName("EventhubNamespace"),
 			),
-			Recorder: mgr.GetEventRecorderFor("EventhubNamespace-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("EventhubNamespace-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {
@@ -335,8 +342,9 @@ func main() {
 				"KeyVault",
 				ctrl.Log.WithName("controllers").WithName("KeyVault"),
 			),
-			Recorder: mgr.GetEventRecorderFor("KeyVault-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("KeyVault-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {
@@ -352,8 +360,9 @@ func main() {
 				"ConsumerGroup",
 				ctrl.Log.WithName("controllers").WithName("ConsumerGroup"),
 			),
-			Recorder: mgr.GetEventRecorderFor("ConsumerGroup-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("ConsumerGroup-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {
@@ -369,8 +378,9 @@ func main() {
 				"AzureSqlServer",
 				ctrl.Log.WithName("controllers").WithName("AzureSqlServer"),
 			),
-			Recorder: mgr.GetEventRecorderFor("AzureSqlServer-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("AzureSqlServer-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlServer")
@@ -386,8 +396,9 @@ func main() {
 				"AzureSqlDb",
 				ctrl.Log.WithName("controllers").WithName("AzureSqlDb"),
 			),
-			Recorder: mgr.GetEventRecorderFor("AzureSqlDb-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("AzureSqlDb-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr)
 	if err != nil {
@@ -403,8 +414,9 @@ func main() {
 				"AzureSQLFirewallRuleOperator",
 				ctrl.Log.WithName("controllers").WithName("AzureSQLFirewallRuleOperator"),
 			),
-			Recorder: mgr.GetEventRecorderFor("SqlFirewallRule-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("SqlFirewallRule-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "SqlFirewallRule")
@@ -419,8 +431,9 @@ func main() {
 				"AzureSQLVNetRuleOperator",
 				ctrl.Log.WithName("controllers").WithName("AzureSQLVNetRuleOperator"),
 			),
-			Recorder: mgr.GetEventRecorderFor("SqlVnetRule-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("SqlVnetRule-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "SqlVNetRule")
@@ -435,8 +448,9 @@ func main() {
 				"AzureSQLActionOperator",
 				ctrl.Log.WithName("controllers").WithName("AzureSQLActionOperator"),
 			),
-			Recorder: mgr.GetEventRecorderFor("SqlAction-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("SqlAction-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "SqlAction")
@@ -451,8 +465,9 @@ func main() {
 				"AzureSQLUser",
 				ctrl.Log.WithName("controllers").WithName("AzureSQLUser"),
 			),
-			Recorder: mgr.GetEventRecorderFor("AzureSQLUser-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("AzureSQLUser-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSQLUser")
@@ -467,8 +482,9 @@ func main() {
 				"AzureSQLManagedUser",
 				ctrl.Log.WithName("controllers").WithName("AzureSQLManagedUser"),
 			),
-			Recorder: mgr.GetEventRecorderFor("AzureSQLManagedUser-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("AzureSQLManagedUser-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSQLManagedUser")
@@ -483,8 +499,9 @@ func main() {
 				"AzureSqlFailoverGroup",
 				ctrl.Log.WithName("controllers").WithName("AzureSqlFailoverGroup"),
 			),
-			Recorder: mgr.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
-			Scheme:   mgr.GetScheme(),
+			Recorder:     mgr.GetEventRecorderFor("AzureSqlFailoverGroup-controller"),
+			Scheme:       mgr.GetScheme(),
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AzureSqlFailoverGroup")
@@ -499,8 +516,9 @@ func main() {
 				"BlobContainer",
 				ctrl.Log.WithName("controllers").WithName("BlobContainer"),
 			),
-			Recorder: mgr.GetEventRecorderFor("BlobContainer-controller"),
-			Scheme:   mgr.GetScheme(),
+			Recorder:     mgr.GetEventRecorderFor("BlobContainer-controller"),
+			Scheme:       mgr.GetScheme(),
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "BlobContainer")
@@ -515,8 +533,9 @@ func main() {
 				"AppInsights",
 				ctrl.Log.WithName("controllers").WithName("AppInsights"),
 			),
-			Recorder: mgr.GetEventRecorderFor("AppInsights-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("AppInsights-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "AppInsights")
@@ -531,8 +550,9 @@ func main() {
 				"PostgreSQLServer",
 				ctrl.Log.WithName("controllers").WithName("PostgreSQLServer"),
 			),
-			Recorder: mgr.GetEventRecorderFor("PostgreSQLServer-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("PostgreSQLServer-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "PostgreSQLServer")
@@ -547,8 +567,9 @@ func main() {
 				"PostgreSQLDatabase",
 				ctrl.Log.WithName("controllers").WithName("PostgreSQLDatabase"),
 			),
-			Recorder: mgr.GetEventRecorderFor("PostgreSQLDatabase-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("PostgreSQLDatabase-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "PostgreSQLDatabase")
@@ -563,8 +584,9 @@ func main() {
 				"PostgreSQLFirewallRule",
 				ctrl.Log.WithName("controllers").WithName("PostgreSQLFirewallRule"),
 			),
-			Recorder: mgr.GetEventRecorderFor("PostgreSQLFirewallRule-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("PostgreSQLFirewallRule-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "PostgreSQLFirewallRule")
@@ -579,8 +601,9 @@ func main() {
 				"PSQLUser",
 				ctrl.Log.WithName("controllers").WithName("PostgreSQLUser"),
 			),
-			Recorder: mgr.GetEventRecorderFor("PostgreSQLUser-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("PostgreSQLUser-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "PostgreSQLUser")
@@ -595,8 +618,9 @@ func main() {
 				"ApimService",
 				ctrl.Log.WithName("controllers").WithName("ApimService"),
 			),
-			Recorder: mgr.GetEventRecorderFor("ApimService-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("ApimService-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "ApimService")
@@ -611,8 +635,9 @@ func main() {
 				"VNet",
 				ctrl.Log.WithName("controllers").WithName("VNet"),
 			),
-			Recorder: mgr.GetEventRecorderFor("VNet-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("VNet-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "VNet")
@@ -627,8 +652,9 @@ func main() {
 				"APIManagement",
 				ctrl.Log.WithName("controllers").WithName("APIManagement"),
 			),
-			Recorder: mgr.GetEventRecorderFor("APIManagement-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("APIManagement-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "APIMgmtAPI")
@@ -643,8 +669,9 @@ func main() {
 				"KeyVaultKey",
 				ctrl.Log.WithName("controllers").WithName("KeyVaultKey"),
 			),
-			Recorder: mgr.GetEventRecorderFor("KeyVaultKey-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("KeyVaultKey-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "KeyVaultKey")
@@ -662,8 +689,9 @@ func main() {
 				"MySQLServer",
 				ctrl.Log.WithName("controllers").WithName("MySQLServer"),
 			),
-			Recorder: mgr.GetEventRecorderFor("MySQLServer-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("MySQLServer-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "MySQLServer")
@@ -677,8 +705,9 @@ func main() {
 				"MySQLDatabase",
 				ctrl.Log.WithName("controllers").WithName("MySQLDatabase"),
 			),
-			Recorder: mgr.GetEventRecorderFor("MySQLDatabase-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("MySQLDatabase-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "MySQLDatabase")
@@ -692,8 +721,9 @@ func main() {
 				"MySQLFirewallRule",
 				ctrl.Log.WithName("controllers").WithName("MySQLFirewallRule"),
 			),
-			Recorder: mgr.GetEventRecorderFor("MySQLFirewallRule-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("MySQLFirewallRule-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "MySQLFirewallRule")
@@ -708,8 +738,9 @@ func main() {
 				"MySQLUser",
 				ctrl.Log.WithName("controllers").WithName("MySQLUser"),
 			),
-			Recorder: mgr.GetEventRecorderFor("MySQLUser-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("MySQLUser-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "MySQLUser")
@@ -727,8 +758,9 @@ func main() {
 				"PublicIPAddress",
 				ctrl.Log.WithName("controllers").WithName("PublicIPAddress"),
 			),
-			Recorder: mgr.GetEventRecorderFor("PublicIPAddress-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("PublicIPAddress-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "PublicIPAddress")
@@ -746,8 +778,9 @@ func main() {
 				"NetworkInterface",
 				ctrl.Log.WithName("controllers").WithName("NetworkInterface"),
 			),
-			Recorder: mgr.GetEventRecorderFor("NetworkInterface-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("NetworkInterface-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "NetworkInterface")
@@ -762,8 +795,9 @@ func main() {
 				"MySQLVNetRule",
 				ctrl.Log.WithName("controllers").WithName("MySQLVNetRule"),
 			),
-			Recorder: mgr.GetEventRecorderFor("MySQLVNetRule-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("MySQLVNetRule-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "MySQLVNetRule")
@@ -781,8 +815,9 @@ func main() {
 				"VirtualMachine",
 				ctrl.Log.WithName("controllers").WithName("VirtualMachine"),
 			),
-			Recorder: mgr.GetEventRecorderFor("VirtualMachine-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("VirtualMachine-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "VirtualMachine")
@@ -800,8 +835,9 @@ func main() {
 				"VirtualMachineExtension",
 				ctrl.Log.WithName("controllers").WithName("VirtualMachineExtension"),
 			),
-			Recorder: mgr.GetEventRecorderFor("VirtualMachineExtension-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("VirtualMachineExtension-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "VirtualMachineExtension")
@@ -816,8 +852,9 @@ func main() {
 				"PostgreSQLVNetRule",
 				ctrl.Log.WithName("controllers").WithName("PostgreSQLVNetRule"),
 			),
-			Recorder: mgr.GetEventRecorderFor("PostgreSQLVNetRule-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("PostgreSQLVNetRule-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "PostgreSQLVNetRule")
@@ -835,8 +872,9 @@ func main() {
 				"LoadBalancer",
 				ctrl.Log.WithName("controllers").WithName("LoadBalancer"),
 			),
-			Recorder: mgr.GetEventRecorderFor("LoadBalancer-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("LoadBalancer-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "LoadBalancer")
@@ -854,8 +892,9 @@ func main() {
 				"VMScaleSet",
 				ctrl.Log.WithName("controllers").WithName("VMScaleSet"),
 			),
-			Recorder: mgr.GetEventRecorderFor("VMScaleSet-controller"),
-			Scheme:   scheme,
+			Recorder:     mgr.GetEventRecorderFor("VMScaleSet-controller"),
+			Scheme:       scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "VMScaleSet")

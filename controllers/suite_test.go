@@ -222,8 +222,9 @@ func setup() error {
 				"AppInsightsApiKey",
 				ctrl.Log.WithName("controllers").WithName("AppInsightsApiKey"),
 			),
-			Recorder: k8sManager.GetEventRecorderFor("AppInsightsApiKey-controller"),
-			Scheme:   scheme.Scheme,
+			Recorder:     k8sManager.GetEventRecorderFor("AppInsightsApiKey-controller"),
+			Scheme:       scheme.Scheme,
+			SecretClient: secretClient,
 		},
 	}).SetupWithManager(k8sManager)
 	if err != nil {

@@ -42,7 +42,8 @@ type SqlDbManager interface {
 		weeklyRetention string,
 		monthlyRetention string,
 		yearlyRetention string,
-		weekOfYear int32) (*http.Response, error)
+		weekOfYear int32,
+		creds map[string]string) (*http.Response, error)
 
 	resourcemanager.ARMClient
 }

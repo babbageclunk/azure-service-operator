@@ -148,7 +148,7 @@ func (s *AzureSqlManagedUserManager) Delete(ctx context.Context, obj runtime.Obj
 	}
 
 	// short circuit connection if database doesn't exist
-	_, err = s.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName)
+	_, err = s.GetDB(ctx, instance.Spec.ResourceGroup, instance.Spec.Server, instance.Spec.DbName, options.Credential)
 	if err != nil {
 		instance.Status.Message = err.Error()
 

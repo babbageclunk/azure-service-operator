@@ -51,3 +51,7 @@ require (
 	sigs.k8s.io/controller-tools v0.4.0 // indirect
 	sigs.k8s.io/structured-merge-diff v1.0.1-0.20191108220359-b1b620dd3f06 // indirect
 )
+
+replace sigs.k8s.io/controller-runtime => ./gohack/sigs.k8s.io/controller-runtime
+
+replace k8s.io/client-go => ./gohack/k8s.io/client-go

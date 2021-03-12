@@ -208,7 +208,7 @@ func (r *Reflector) resyncChan() (<-chan time.Time, func() bool) {
 // and then use the resource version to watch.
 // It returns error if ListAndWatch didn't even try to initialize watch.
 func (r *Reflector) ListAndWatch(stopCh <-chan struct{}) error {
-	klog.V(3).Infof("Listing and watching %v from %s", r.expectedTypeName, r.name)
+	klog.V(0).Infof("Listing and watching %v from %s, expectedGVK: %#v", r.expectedTypeName, r.name, r.expectedGVK)
 	var resourceVersion string
 
 	options := metav1.ListOptions{ResourceVersion: r.relistResourceVersion()}

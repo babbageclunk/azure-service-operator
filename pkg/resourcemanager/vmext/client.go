@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 
 	"github.com/Azure/azure-sdk-for-go/services/compute/mgmt/2018-10-01/compute"
+	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
 
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
@@ -30,32 +31,38 @@ func NewAzureVirtualMachineExtensionClient(creds config.Credentials, secretclien
 	}
 }
 
-func getVirtualMachineExtensionClient(creds config.Credentials) compute.VirtualMachineExtensionsClient {
+func getVirtualMachineExtensionClient(creds config.Credentials) (compute.VirtualMachineExtensionsClient, error) {
 	computeClient := compute.NewVirtualMachineExtensionsClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer(creds)
+	a, err := iam.GetResourceManagementAuthorizer(creds)
+	if err != nil {
+		return compute.VirtualMachineExtensionsClient{}, errors.Wrapf(err, "getting authorizer")
+	}
 	computeClient.Authorizer = a
 	computeClient.AddToUserAgent(config.UserAgent())
-	return computeClient
+	return computeClient, nil
 }
 
-func (c *AzureVirtualMachineExtensionClient) CreateVirtualMachineExtension(ctx context.Context, location string, resourceGroupName string, vmName string, extName string, autoUpgradeMinorVersion bool, forceUpdateTag string, publisher string, typeName string, typeHandlerVersion string, settings string, protectedSettings string) (future compute.VirtualMachineExtensionsCreateOrUpdateFuture, err error) {
-
-	client := getVirtualMachineExtensionClient(c.Creds)
+func (c *AzureVirtualMachineExtensionClient) CreateVirtualMachineExtension(ctx context.Context, location string, resourceGroupName string, vmName string, extName string, autoUpgradeMinorVersion bool, forceUpdateTag string, publisher string, typeName string, typeHandlerVersion string, settings string, protectedSettings string) (compute.VirtualMachineExtensionsCreateOrUpdateFuture, error) {
+	var emptyFuture compute.VirtualMachineExtensionsCreateOrUpdateFuture
+	client, err := getVirtualMachineExtensionClient(c.Creds)
+	if err != nil {
+		return emptyFuture, err
+	}
 
 	var extensionSettings map[string]*string
 
 	err = json.Unmarshal([]byte(settings), &extensionSettings)
 	if err != nil {
-		return future, err
+		return emptyFuture, err
 	}
 
 	var extensionProtectedSettings map[string]*string
 	err = json.Unmarshal([]byte(protectedSettings), &extensionProtectedSettings)
 	if err != nil {
-		return future, err
+		return emptyFuture, err
 	}
 
-	future, err = client.CreateOrUpdate(
+	future, err := client.CreateOrUpdate(
 		ctx,
 		resourceGroupName,
 		vmName,
@@ -79,7 +86,10 @@ func (c *AzureVirtualMachineExtensionClient) CreateVirtualMachineExtension(ctx c
 
 func (c *AzureVirtualMachineExtensionClient) DeleteVirtualMachineExtension(ctx context.Context, extName string, vmName string, resourcegroup string) (status string, err error) {
 
-	client := getVirtualMachineExtensionClient(c.Creds)
+	client, err := getVirtualMachineExtensionClient(c.Creds)
+	if err != nil {
+		return "", err
+	}
 
 	_, err = client.Get(ctx, resourcegroup, vmName, extName, "")
 	if err == nil { // vm present, so go ahead and delete
@@ -93,7 +103,7 @@ func (c *AzureVirtualMachineExtensionClient) DeleteVirtualMachineExtension(ctx c
 
 func (c *AzureVirtualMachineExtensionClient) GetVirtualMachineExtension(ctx context.Context, resourcegroup string, vmName string, extName string) (vm compute.VirtualMachineExtension, err error) {
 
-	client := getVirtualMachineExtensionClient(c.Creds)
+	client, err := getVirtualMachineExtensionClient(c.Creds)
 
 	return client.Get(ctx, resourcegroup, vmName, extName, "")
 }

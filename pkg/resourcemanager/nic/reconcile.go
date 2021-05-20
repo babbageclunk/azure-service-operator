@@ -22,7 +22,10 @@ func (m *AzureNetworkInterfaceClient) Ensure(ctx context.Context, obj runtime.Ob
 		return true, err
 	}
 
-	client := getNetworkInterfaceClient(m.Creds)
+	client, err := getNetworkInterfaceClient(m.Creds)
+	if err != nil {
+		return false, err
+	}
 
 	location := instance.Spec.Location
 	resourceGroup := instance.Spec.ResourceGroup

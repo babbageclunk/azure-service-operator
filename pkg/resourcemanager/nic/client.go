@@ -6,12 +6,14 @@ package nic
 import (
 	"context"
 
+	"github.com/pkg/errors"
+	"k8s.io/apimachinery/pkg/runtime"
+
 	vnetwork "github.com/Azure/azure-sdk-for-go/services/network/mgmt/2019-09-01/network"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	"k8s.io/apimachinery/pkg/runtime"
 )
 
 type AzureNetworkInterfaceClient struct {
@@ -28,17 +30,23 @@ func NewAzureNetworkInterfaceClient(creds config.Credentials, secretclient secre
 	}
 }
 
-func getNetworkInterfaceClient(creds config.Credentials) vnetwork.InterfacesClient {
+func getNetworkInterfaceClient(creds config.Credentials) (vnetwork.InterfacesClient, error) {
 	nicClient := vnetwork.NewInterfacesClientWithBaseURI(config.BaseURI(), creds.SubscriptionID())
-	a, _ := iam.GetResourceManagementAuthorizer(creds)
+	a, err := iam.GetResourceManagementAuthorizer(creds)
+	if err != nil {
+		return vnetwork.InterfacesClient{}, errors.Wrapf(err, "getting authorizer")
+	}
 	nicClient.Authorizer = a
 	nicClient.AddToUserAgent(config.UserAgent())
-	return nicClient
+	return nicClient, nil
 }
 
-func (m *AzureNetworkInterfaceClient) CreateNetworkInterface(ctx context.Context, location string, resourceGroupName string, resourceName string, vnetName string, subnetName string, publicIPAddressName string) (future vnetwork.InterfacesCreateOrUpdateFuture, err error) {
+func (m *AzureNetworkInterfaceClient) CreateNetworkInterface(ctx context.Context, location string, resourceGroupName string, resourceName string, vnetName string, subnetName string, publicIPAddressName string) (vnetwork.InterfacesCreateOrUpdateFuture, error) {
 
-	client := getNetworkInterfaceClient(m.Creds)
+	client, err := getNetworkInterfaceClient(m.Creds)
+	if err != nil {
+		return vnetwork.InterfacesCreateOrUpdateFuture{}, err
+	}
 
 	subnetIDInput := helpers.MakeResourceID(
 		client.SubscriptionID,
@@ -76,7 +84,7 @@ func (m *AzureNetworkInterfaceClient) CreateNetworkInterface(ctx context.Context
 		},
 	)
 
-	future, err = client.CreateOrUpdate(
+	future, err := client.CreateOrUpdate(
 		ctx,
 		resourceGroupName,
 		resourceName,
@@ -91,9 +99,12 @@ func (m *AzureNetworkInterfaceClient) CreateNetworkInterface(ctx context.Context
 	return future, err
 }
 
-func (m *AzureNetworkInterfaceClient) DeleteNetworkInterface(ctx context.Context, nicName string, resourcegroup string) (status string, err error) {
+func (m *AzureNetworkInterfaceClient) DeleteNetworkInterface(ctx context.Context, nicName string, resourcegroup string) (string, error) {
 
-	client := getNetworkInterfaceClient(m.Creds)
+	client, err := getNetworkInterfaceClient(m.Creds)
+	if err != nil {
+		return "", err
+	}
 
 	_, err = client.Get(ctx, resourcegroup, nicName, "")
 	if err == nil { // nic present, so go ahead and delete
@@ -105,9 +116,12 @@ func (m *AzureNetworkInterfaceClient) DeleteNetworkInterface(ctx context.Context
 
 }
 
-func (m *AzureNetworkInterfaceClient) GetNetworkInterface(ctx context.Context, resourcegroup string, nicName string) (nic vnetwork.Interface, err error) {
+func (m *AzureNetworkInterfaceClient) GetNetworkInterface(ctx context.Context, resourcegroup string, nicName string) (vnetwork.Interface, error) {
 
-	client := getNetworkInterfaceClient(m.Creds)
+	client, err := getNetworkInterfaceClient(m.Creds)
+	if err != nil {
+		return vnetwork.Interface{}, err
+	}
 
 	return client.Get(ctx, resourcegroup, nicName, "")
 }

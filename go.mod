@@ -29,6 +29,7 @@ require (
 	github.com/kr/text v0.2.0 // indirect
 	github.com/lib/pq v1.6.0
 	github.com/marstr/randname v0.0.0-20181206212954-d5b0f288ab8c
+	github.com/mikefarah/yq/v4 v4.9.1 // indirect
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
 	github.com/onsi/ginkgo v1.12.1
 	github.com/onsi/gomega v1.10.1
@@ -48,6 +49,9 @@ require (
 	k8s.io/api v0.18.6
 	k8s.io/apimachinery v0.18.6
 	k8s.io/client-go v0.18.6
+	k8s.io/code-generator v0.18.2 // indirect
 	k8s.io/utils v0.0.0-20200603063816-c1c6865ac451 // indirect
 	sigs.k8s.io/controller-runtime v0.6.0
+	sigs.k8s.io/controller-tools v0.4.0 // indirect
+	sigs.k8s.io/kustomize/kustomize/v3 v3.8.6 // indirect
 )

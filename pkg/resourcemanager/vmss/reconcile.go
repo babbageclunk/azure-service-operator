@@ -22,7 +22,10 @@ func (c *AzureVMScaleSetClient) Ensure(ctx context.Context, obj runtime.Object, 
 		return true, err
 	}
 
-	client := getVMScaleSetClient(c.Creds)
+	client, err := getVMScaleSetClient(c.Creds)
+	if err != nil {
+		return false, err
+	}
 
 	location := instance.Spec.Location
 	resourceGroup := instance.Spec.ResourceGroup

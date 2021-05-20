@@ -7,13 +7,15 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/Azure/go-autorest/autorest"
+	"github.com/Azure/go-autorest/autorest/azure"
+	"github.com/Azure/go-autorest/tracing"
+	"github.com/pkg/errors"
+
 	"github.com/Azure/azure-service-operator/api/v1beta1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
-	"github.com/Azure/go-autorest/autorest"
-	"github.com/Azure/go-autorest/autorest/azure"
-	"github.com/Azure/go-autorest/tracing"
 )
 
 const (
@@ -37,17 +39,20 @@ type PollClient struct {
 }
 
 // NewPollClient returns a client using hte env values from config
-func NewPollClient(creds config.Credentials) PollClient {
+func NewPollClient(creds config.Credentials) (PollClient, error) {
 	return NewPollClientWithBaseURI(config.BaseURI(), creds)
 }
 
 // NewPollClientWithBaseURI returns a paramterized client
-func NewPollClientWithBaseURI(baseURI string, creds config.Credentials) PollClient {
+func NewPollClientWithBaseURI(baseURI string, creds config.Credentials) (PollClient, error) {
 	c := PollClient{NewWithBaseURI(baseURI, creds.SubscriptionID())}
-	a, _ := iam.GetResourceManagementAuthorizer(creds)
+	a, err := iam.GetResourceManagementAuthorizer(creds)
+	if err != nil {
+		return PollClient{}, errors.Wrapf(err, "getting authorizer")
+	}
 	c.Authorizer = a
 	c.AddToUserAgent(config.UserAgent())
-	return c
+	return c, nil
 }
 
 // NewWithBaseURI creates an instance of the BaseClient client.

@@ -22,7 +22,10 @@ func (c *AzureVirtualMachineExtensionClient) Ensure(ctx context.Context, obj run
 		return true, err
 	}
 
-	client := getVirtualMachineExtensionClient(c.Creds)
+	client, err := getVirtualMachineExtensionClient(c.Creds)
+	if err != nil {
+		return false, err
+	}
 
 	location := instance.Spec.Location
 	resourceGroup := instance.Spec.ResourceGroup

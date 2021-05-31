@@ -327,7 +327,7 @@ install-test-dependencies: install-dependencies
 install-dependencies:
 	go get github.com/mikefarah/yq/v4 \
 	&& go get k8s.io/code-generator/cmd/conversion-gen@v0.18.2 \
-	&& go get sigs.k8s.io/kustomize/kustomize/v3@v3.8.6 \
+	&& go get sigs.k8s.io/kustomize/kustomize/v4@v4.1.3 \
 	&& go get sigs.k8s.io/controller-tools/cmd/controller-gen@v0.4.0
     CONTROLLER_GEN=$(shell go env GOPATH)/bin/controller-gen
 

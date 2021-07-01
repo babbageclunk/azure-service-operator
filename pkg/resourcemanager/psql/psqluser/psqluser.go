@@ -37,6 +37,8 @@ type PostgreSqlUserManager struct {
 	Creds        config.Credentials
 	SecretClient secrets.SecretClient
 	Scheme       *runtime.Scheme
+
+	cache *helpers.DBCache
 }
 
 //NewPostgreSqlUserManager creates a new PostgreSqlUserManager
@@ -45,6 +47,7 @@ func NewPostgreSqlUserManager(creds config.Credentials, secretClient secrets.Sec
 		Creds:        creds,
 		SecretClient: secretClient,
 		Scheme:       scheme,
+		cache:        helpers.NewDBCache(PDriverName),
 	}
 }
 
@@ -64,11 +67,11 @@ func (m *PostgreSqlUserManager) GetDB(ctx context.Context, resourceGroupName str
 }
 
 // ConnectToSqlDb connects to the PostgreSQL db using the given credentials
-func (m *PostgreSqlUserManager) ConnectToSqlDb(ctx context.Context, drivername string, fullservername string, database string, port int, user string, password string) (*sql.DB, error) {
+func (m *PostgreSqlUserManager) ConnectToSqlDb(ctx context.Context, fullservername string, database string, port int, user string, password string) (*sql.DB, error) {
 
 	connString := fmt.Sprintf("host=%s user=%s password=%s port=%d dbname=%s sslmode=require connect_timeout=30", fullservername, user, password, port, database)
 
-	db, err := sql.Open(drivername, connString)
+	db, err := m.cache.Get(connString)
 	if err != nil {
 		return db, err
 	}

@@ -105,7 +105,7 @@ func (m *PostgreSqlUserManager) Ensure(ctx context.Context, obj runtime.Object, 
 	}
 
 	fullServerName := string(adminSecret["fullyQualifiedServerName"])
-	db, err := m.ConnectToSqlDb(ctx, PDriverName, fullServerName, instance.Spec.DbName, PSqlServerPort, adminUser, adminPassword)
+	db, err := m.ConnectToSqlDb(ctx, fullServerName, instance.Spec.DbName, PSqlServerPort, adminUser, adminPassword)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		instance.Status.Provisioning = false
@@ -238,7 +238,7 @@ func (m *PostgreSqlUserManager) Delete(ctx context.Context, obj runtime.Object, 
 	adminPassword := string(adminSecret[PSecretPasswordKey])
 	fullServerName := string(adminSecret["fullyQualifiedServerName"])
 
-	db, err := m.ConnectToSqlDb(ctx, PDriverName, fullServerName, instance.Spec.DbName, PSqlServerPort, adminUser, adminPassword)
+	db, err := m.ConnectToSqlDb(ctx, fullServerName, instance.Spec.DbName, PSqlServerPort, adminUser, adminPassword)
 	if err != nil {
 		instance.Status.Message = errhelp.StripErrorIDs(err)
 		if strings.Contains(err.Error(), "no pg_hba.conf entry for host") {

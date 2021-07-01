@@ -91,6 +91,7 @@ func (c *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 				instance.Status.Provisioning = false
 				instance.Status.FailedProvisioning = false
 				instance.Status.SpecHash = hash
+				instance.Status.PollingURL = ""
 				return true, nil
 			}
 
@@ -182,7 +183,7 @@ func (c *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 				return false, nil
 			}
 
-			// serious error occured, end reconcilliation and mark it as failed
+			// serious error occurred, end reconciliation and mark it as failed
 			instance.Status.Message = errhelp.StripErrorIDs(err)
 			instance.Status.Provisioned = false
 			instance.Status.FailedProvisioning = true
@@ -190,6 +191,7 @@ func (c *PSQLServerClient) Ensure(ctx context.Context, obj runtime.Object, opts 
 
 		}
 
+		instance.Status.PollingURL = pollURL
 		instance.Status.Message = "request submitted to Azure"
 
 	}
